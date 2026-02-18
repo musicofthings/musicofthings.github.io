@@ -26,7 +26,6 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -35,8 +34,6 @@
       color: var(--dark);
       line-height: 1.7;
     }
-
-    img { max-width: 100%; display: block; }
 
     .container {
       width: min(1080px, 92vw);
@@ -58,7 +55,7 @@
       z-index: 100;
       height: 64px;
       border-bottom: 1px solid var(--light-gray);
-      background: color-mix(in srgb, var(--light) 90%, white 10%);
+      background: color-mix(in srgb, var(--light) 92%, white 8%);
       backdrop-filter: blur(8px);
     }
 
@@ -136,12 +133,14 @@
       background: white;
       border-radius: var(--radius);
       padding: 20px;
+      display: grid;
+      gap: 8px;
     }
 
     .hero-meta p {
       font-size: 14px;
       color: #6b685f;
-      margin-top: 8px;
+      margin: 0;
     }
 
     section {
@@ -188,46 +187,42 @@
       transition: transform var(--transition), box-shadow var(--transition);
       display: flex;
       flex-direction: column;
+      min-height: 420px;
     }
 
     .project-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 28px rgba(20,20,19,0.1);
+      box-shadow: 0 10px 28px rgba(20, 20, 19, 0.1);
     }
 
     .project-thumb {
-      aspect-ratio: 16/9;
-      padding: 18px;
+      aspect-ratio: 16 / 10;
       border-bottom: 1px solid var(--light-gray);
       background: linear-gradient(130deg, #fff 0%, #f3f1ea 100%);
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: #6f6c63;
+      display: grid;
+      place-items: center;
+      padding: 10px;
     }
 
-    .badge {
-      font-family: var(--font-head);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      border-radius: 999px;
-      padding: 4px 10px;
-      color: #fff;
+    .project-thumb svg {
+      width: 100%;
+      height: 100%;
+      border-radius: 3px;
+      overflow: visible;
     }
-
-    .badge.orange { background: var(--orange); }
-    .badge.blue { background: var(--blue); }
-    .badge.green { background: var(--green); }
 
     .project-content {
       padding: 16px;
       display: grid;
       gap: 10px;
       flex-grow: 1;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
     }
 
     .project-content h3 {
@@ -237,7 +232,32 @@
       line-height: 1.3;
     }
 
-    .project-content p { font-size: 15px; color: #646158; }
+    .project-content p {
+      font-size: 15px;
+      color: #646158;
+    }
+
+    .meta-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      min-height: 28px;
+    }
+
+    .chip,
+    .stat {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 8px;
+      border: 1px solid var(--light-gray);
+      border-radius: 999px;
+      color: #5f5b52;
+      background: #fffeff;
+      line-height: 1;
+    }
+
+    .chip { text-transform: lowercase; }
 
     .project-links {
       margin-top: auto;
@@ -259,6 +279,16 @@
     }
 
     .project-links a:hover { border-color: var(--dark); }
+
+    .placeholder-note {
+      border: 1px dashed var(--light-gray);
+      border-radius: var(--radius);
+      background: white;
+      padding: 16px;
+      color: #646158;
+      font-size: 15px;
+      margin-top: 8px;
+    }
 
     .timeline {
       border: 1px solid var(--light-gray);
@@ -373,9 +403,9 @@
     .btn-primary:hover { background: #c8654a; }
 
     .btn-outline {
-      border-color: rgba(250,249,245,0.35);
+      border-color: rgba(250, 249, 245, 0.35);
       color: var(--light);
-      background: rgba(250,249,245,0.05);
+      background: rgba(250, 249, 245, 0.05);
     }
 
     .btn-outline:hover { border-color: var(--light); }
@@ -431,12 +461,13 @@
         <h1>Building small ideas into <strong>useful, shippable tools</strong>.</h1>
         <p>
           Welcome to Music of Things, a project showcase for experiments in product design, web builds, sound systems,
-          and creative automation. Everything here is static-site friendly and continuously evolving.
+          and creative automation. Featured projects below are loaded from public GitHub repositories.
         </p>
       </div>
       <aside class="hero-meta" aria-label="Status">
         <p class="eyebrow">Current Focus</p>
-        <p>Documenting ideas, shipping one experiment each month, and sharing process notes for each build.</p>
+        <p>Shipping practical micro-products with a strong signal: clear UX, fast performance, and useful documentation.</p>
+        <p id="repo-source" class="stat">Source: github.com/musicofthings</p>
       </aside>
     </div>
   </header>
@@ -449,55 +480,11 @@
             <p class="eyebrow">01 — Work</p>
             <h2>Featured Projects</h2>
           </div>
-          <p class="section-note">All entries are static pages and can be hosted on GitHub Pages.</p>
+          <p class="section-note">Live data from public GitHub repos with diagram cards</p>
         </div>
 
-        <div class="project-grid">
-          <article class="project-card">
-            <div class="project-thumb">
-              <span>audio-tools.vercel.app</span>
-              <span class="badge orange">Live</span>
-            </div>
-            <div class="project-content">
-              <h3>Loop Lab</h3>
-              <p>A browser-based sketchpad for layering loops, marking cue points, and exporting simple arrangement notes.</p>
-              <div class="project-links">
-                <a href="#" aria-label="Open Loop Lab demo">Demo</a>
-                <a href="#" aria-label="Open Loop Lab repository">Repository</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card">
-            <div class="project-thumb">
-              <span>prompt-palette.pages.dev</span>
-              <span class="badge blue">Beta</span>
-            </div>
-            <div class="project-content">
-              <h3>Prompt Palette</h3>
-              <p>A minimal reference tool for prompt structures, reusable snippets, and rapid iteration templates.</p>
-              <div class="project-links">
-                <a href="#" aria-label="Open Prompt Palette demo">Demo</a>
-                <a href="#" aria-label="Open Prompt Palette repository">Repository</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="project-card">
-            <div class="project-thumb">
-              <span>habit-light.netlify.app</span>
-              <span class="badge green">New</span>
-            </div>
-            <div class="project-content">
-              <h3>Habit Light</h3>
-              <p>A lightweight habit tracker with calendar heatmaps, weekly summaries, and keyboard-friendly workflows.</p>
-              <div class="project-links">
-                <a href="#" aria-label="Open Habit Light demo">Demo</a>
-                <a href="#" aria-label="Open Habit Light repository">Repository</a>
-              </div>
-            </div>
-          </article>
-        </div>
+        <div id="project-grid" class="project-grid" aria-live="polite"></div>
+        <div id="project-placeholder" class="placeholder-note" hidden></div>
       </div>
     </section>
 
@@ -515,24 +502,24 @@
           <article class="timeline-item">
             <p class="timeline-time">Jan 2026</p>
             <div>
-              <h3>Documentation Sprint</h3>
-              <p>Turning rough notes into clean setup docs so every project can be cloned and launched in under five minutes.</p>
+              <h3>Polishing repo-first portfolio content</h3>
+              <p>Turning each project into a concise story with value proposition, architecture notes, and practical outcomes.</p>
             </div>
           </article>
 
           <article class="timeline-item">
             <p class="timeline-time">Dec 2025</p>
             <div>
-              <h3>Static Deployment Cleanup</h3>
-              <p>Standardized build outputs and removed legacy dependencies to keep deployments simple and predictable.</p>
+              <h3>Static deployment cleanup</h3>
+              <p>Removed legacy dependencies to keep this site lightweight and deterministic for GitHub Pages deployment.</p>
             </div>
           </article>
 
           <article class="timeline-item">
             <p class="timeline-time">Nov 2025</p>
             <div>
-              <h3>Experiment Archive</h3>
-              <p>Organized past prototypes into a searchable archive with tags for audio, tooling, and interface ideas.</p>
+              <h3>Experiment archive pass</h3>
+              <p>Cataloged prototypes by domain (audio, tooling, productivity, visual systems) for faster retrieval.</p>
             </div>
           </article>
         </div>
@@ -546,28 +533,27 @@
             <p class="eyebrow">03 — Profile</p>
             <h2>About this space</h2>
           </div>
-          <p class="section-note">Built with vanilla HTML, CSS, and good defaults</p>
+          <p class="section-note">Built with vanilla HTML, CSS, and JavaScript</p>
         </div>
 
         <div class="about-grid">
           <article class="card">
-            <h3>Philosophy</h3>
-            <p>This site favors clarity over complexity: fast load times, clean typography, and project-first storytelling.</p>
+            <h3>How featured images work</h3>
+            <p>Each project card generates a custom SVG diagram using repo metadata (stars, forks, recency, language signal) as visual primitives.</p>
             <div class="stack">
-              <span class="pill">No build step</span>
-              <span class="pill">Static hosting</span>
-              <span class="pill">Accessible markup</span>
+              <span class="pill">Signal over decoration</span>
+              <span class="pill">Generated diagrams</span>
+              <span class="pill">Core-value blurbs</span>
             </div>
           </article>
 
           <article class="card">
-            <h3>Toolkit</h3>
-            <p>Most projects start with simple front-end stacks and evolve only when there is a clear reason to add complexity.</p>
+            <h3>Tech approach</h3>
+            <p>No framework required. The page fetches public repositories at runtime and renders cards client-side for easy maintenance.</p>
             <div class="stack">
-              <span class="pill">HTML + CSS</span>
-              <span class="pill">JavaScript</span>
-              <span class="pill">GitHub Pages</span>
-              <span class="pill">Figma drafts</span>
+              <span class="pill">GitHub REST API</span>
+              <span class="pill">Progressive fallback</span>
+              <span class="pill">Single-file deploy</span>
             </div>
           </article>
         </div>
@@ -578,10 +564,10 @@
       <div class="contact">
         <p class="eyebrow">04 — Connect</p>
         <h2>Want to collaborate or follow along?</h2>
-        <p>Open an issue, send a note, or fork a project and build your own version.</p>
+        <p>Explore project source, open issues, or reach out for creative/product collaboration.</p>
         <div class="button-row">
           <a class="btn btn-primary" href="mailto:hello@example.com">Email</a>
-          <a class="btn btn-outline" href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+          <a class="btn btn-outline" href="https://github.com/musicofthings" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
         </div>
       </div>
     </section>
@@ -590,5 +576,178 @@
   <footer>
     <div class="container">Music of Things · Side Projects · Updated 2026</div>
   </footer>
+
+  <script>
+    (function () {
+      const username = 'musicofthings';
+      const repoApi = `https://api.github.com/users/${username}/repos?per_page=100&sort=updated`;
+      const projectGrid = document.getElementById('project-grid');
+      const placeholder = document.getElementById('project-placeholder');
+      const sourceLabel = document.getElementById('repo-source');
+
+      sourceLabel.textContent = `Source: github.com/${username}`;
+
+      function toDateSignal(date) {
+        const days = Math.max(1, Math.floor((Date.now() - new Date(date).getTime()) / (1000 * 60 * 60 * 24)));
+        return Math.max(0.1, Math.min(1, 1 - (days / 365)));
+      }
+
+      function describeCoreValue(repo) {
+        const lang = repo.language || 'General';
+        const desc = (repo.description || '').toLowerCase();
+
+        if (desc.includes('api') || desc.includes('backend')) {
+          return 'Reliable service layer for integrating data and workflows.';
+        }
+        if (desc.includes('ui') || desc.includes('design') || desc.includes('front')) {
+          return 'Interface-first build focused on clarity and interaction quality.';
+        }
+        if (desc.includes('audio') || desc.includes('music') || desc.includes('sound')) {
+          return 'Creative tooling that turns audio ideas into repeatable workflows.';
+        }
+        if (desc.includes('automation') || desc.includes('script') || desc.includes('tool')) {
+          return 'Automation utility that saves time through repeatable operations.';
+        }
+        if (lang === 'JavaScript' || lang === 'TypeScript') {
+          return 'Product experiment emphasizing fast iteration and practical UX.';
+        }
+        if (lang === 'Python') {
+          return 'Data and workflow project optimized for rapid experimentation.';
+        }
+        return 'General-purpose side project with a focus on useful outcomes and maintainable structure.';
+      }
+
+      function iconFor(repo) {
+        const text = `${repo.name} ${(repo.description || '')}`.toLowerCase();
+        if (text.includes('audio') || text.includes('music') || text.includes('sound')) return '🎛️';
+        if (text.includes('api') || text.includes('server') || text.includes('backend')) return '🧩';
+        if (text.includes('design') || text.includes('ui') || text.includes('portfolio')) return '🎨';
+        if (text.includes('automation') || text.includes('workflow') || text.includes('script')) return '⚙️';
+        if (text.includes('ai') || text.includes('agent') || text.includes('ml')) return '🤖';
+        return '🚀';
+      }
+
+      function createDiagram(repo) {
+        const stars = Math.min(100, repo.stargazers_count || 0);
+        const forks = Math.min(100, repo.forks_count || 0);
+        const issues = Math.min(100, repo.open_issues_count || 0);
+        const recency = Math.round(toDateSignal(repo.pushed_at) * 100);
+        const docs = Math.min(100, ((repo.description || '').length / 120) * 100);
+
+        const values = [stars, forks, recency, docs, 100 - issues];
+        const labels = ['Impact', 'Adoption', 'Velocity', 'Clarity', 'Stability'];
+        const cx = 160;
+        const cy = 100;
+        const radius = 70;
+
+        const points = values.map((value, i) => {
+          const angle = ((Math.PI * 2) / values.length) * i - Math.PI / 2;
+          const r = (radius * value) / 100;
+          return `${(cx + Math.cos(angle) * r).toFixed(1)},${(cy + Math.sin(angle) * r).toFixed(1)}`;
+        }).join(' ');
+
+        const axis = values.map((_, i) => {
+          const angle = ((Math.PI * 2) / values.length) * i - Math.PI / 2;
+          const x = cx + Math.cos(angle) * radius;
+          const y = cy + Math.sin(angle) * radius;
+          return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#d9d6cb" stroke-width="1"/>`;
+        }).join('');
+
+        const rings = [0.25, 0.5, 0.75, 1].map(scale =>
+          `<circle cx="${cx}" cy="${cy}" r="${(radius * scale).toFixed(1)}" fill="none" stroke="#e8e6dc" stroke-width="1"/>`
+        ).join('');
+
+        const labelNodes = labels.map((label, i) => {
+          const angle = ((Math.PI * 2) / labels.length) * i - Math.PI / 2;
+          const x = cx + Math.cos(angle) * (radius + 20);
+          const y = cy + Math.sin(angle) * (radius + 20);
+          return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" font-size="8" font-family="JetBrains Mono, monospace" fill="#858176">${label}</text>`;
+        }).join('');
+
+        return `
+          <svg viewBox="0 0 320 200" role="img" aria-label="Core value diagram for ${repo.name}">
+            <rect x="0" y="0" width="320" height="200" fill="url(#grad-${repo.id})"/>
+            <defs>
+              <linearGradient id="grad-${repo.id}" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#faf9f5"/>
+                <stop offset="100%" stop-color="#efede4"/>
+              </linearGradient>
+            </defs>
+            ${rings}
+            ${axis}
+            <polygon points="${points}" fill="#6a9bcc66" stroke="#3f6d9a" stroke-width="2"/>
+            <circle cx="${cx}" cy="${cy}" r="3" fill="#d97757"/>
+            ${labelNodes}
+            <text x="16" y="24" font-size="12" font-family="Poppins, Arial, sans-serif" font-weight="600" fill="#3a3833">${iconFor(repo)} ${repo.name}</text>
+          </svg>`;
+      }
+
+      function makeCard(repo) {
+        const lang = repo.language || 'unknown';
+        const topics = (repo.topics || []).slice(0, 2);
+        const blurb = describeCoreValue(repo);
+
+        const article = document.createElement('article');
+        article.className = 'project-card';
+
+        article.innerHTML = `
+          <div class="project-thumb">${createDiagram(repo)}</div>
+          <div class="project-content">
+            <div class="title-row">
+              <h3>${repo.name.replace(/-/g, ' ')}</h3>
+              <span class="stat">★ ${repo.stargazers_count}</span>
+            </div>
+            <p>${blurb}</p>
+            <div class="meta-row">
+              <span class="chip">${lang}</span>
+              <span class="stat">Forks ${repo.forks_count}</span>
+              ${topics.map(topic => `<span class="chip">${topic}</span>`).join('')}
+            </div>
+            <div class="project-links">
+              <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">Repository</a>
+              ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" rel="noopener noreferrer">Live Demo</a>` : ''}
+            </div>
+          </div>`;
+
+        return article;
+      }
+
+      function renderFallback(message) {
+        placeholder.hidden = false;
+        placeholder.textContent = `${message} The site will automatically show your public repositories when this page is opened with internet access.`;
+      }
+
+      async function loadRepos() {
+        try {
+          const response = await fetch(repoApi, {
+            headers: {
+              Accept: 'application/vnd.github+json'
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status}`);
+          }
+
+          const repos = await response.json();
+          const filtered = repos
+            .filter(repo => !repo.fork && !repo.archived)
+            .slice(0, 6);
+
+          if (!filtered.length) {
+            renderFallback('No public repositories found.');
+            return;
+          }
+
+          filtered.forEach(repo => projectGrid.appendChild(makeCard(repo)));
+        } catch (error) {
+          renderFallback('Could not load repositories right now.');
+          console.warn(error);
+        }
+      }
+
+      loadRepos();
+    })();
+  </script>
 </body>
 </html>
